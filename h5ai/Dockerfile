@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.10.2
+FROM phusion/baseimage:0.9.16
 MAINTAINER smdion <me@seandion.com>
 
 # Set correct environment variables
