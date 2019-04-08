@@ -34,11 +34,11 @@ RUN \
 
 # patch h5ai because we want to deploy it ouside of the document root and use /var/www as root for browsing
 ADD App.php.patch App.php.patch
-RUN patch -p1 -u -d /usr/share/h5ai/_h5ai/server/php/inc/ -i /App.php.patch && \
+RUN patch -p1 -u -d /usr/share/h5ai/_h5ai/private/php/ -i /App.php.patch && \
   rm App.php.patch
-RUN cp /usr/share/h5ai/_h5ai/conf/options.json /usr/share/h5ai/_h5ai/conf/options.json.bak
-RUN rm /usr/share/h5ai/_h5ai/conf/options.json
-RUN ln -s /config/options.json /usr/share/h5ai/_h5ai/conf/options.json
+RUN cp /usr/share/h5ai/_h5ai/private/conf/options.json /usr/share/h5ai/_h5ai/private/conf/options.json.bak
+RUN rm /usr/share/h5ai/_h5ai/private/conf/options.json
+RUN ln -s /config/options.json /usr/share/h5ai/_h5ai/private/conf/options.json
 
 # add h5ai as the only nginx site
 ADD h5ai.nginx.conf /etc/nginx/sites-available/h5ai
