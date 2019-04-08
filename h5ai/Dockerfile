@@ -33,7 +33,7 @@ RUN \
   unzip h5ai-0.29.2.zip -d /usr/share/h5ai
 
 # install extra requirements for newer h5ai version
-RUN apt-get install -y \
+RUN apt-get update -q && apt-get install -y \
   supervisor acl \
   libav-tools imagemagick \
   graphicsmagick zip php5-gd
