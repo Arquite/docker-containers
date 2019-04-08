@@ -32,9 +32,15 @@ RUN \
   wget https://release.larsjung.de/h5ai/h5ai-0.29.2.zip && \
   unzip h5ai-0.29.2.zip -d /usr/share/h5ai
 
+# install extra requirements for newer h5ai version
+RUN apt-get install -y \
+  supervisor acl \
+  libav-tools imagemagick \
+  graphicsmagick zip php5-gd
+
 # patch h5ai because we want to deploy it ouside of the document root and use /var/www as root for browsing
 ADD App.php.patch App.php.patch
-RUN patch -p1 -u -d /usr/share/h5ai/_h5ai/private/php/ -i /App.php.patch && \
+RUN patch -p1 -u -d /usr/share/h5ai/_h5ai/private/php/core -i /App.php.patch && \
   rm App.php.patch
 RUN cp /usr/share/h5ai/_h5ai/private/conf/options.json /usr/share/h5ai/_h5ai/private/conf/options.json.bak
 RUN rm /usr/share/h5ai/_h5ai/private/conf/options.json
