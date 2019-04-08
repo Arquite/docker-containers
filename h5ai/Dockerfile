@@ -3,6 +3,7 @@ MAINTAINER smdion <me@seandion.com>
 
 # Set correct environment variables
 ENV HOME /root
+ENV HTTPD_USER www-data
 ENV DEBIAN_FRONTEND noninteractive
 ENV LC_ALL C.UTF-8
 ENV LANG en_US.UTF-8
@@ -39,12 +40,17 @@ RUN apt-get update -q && apt-get install -y \
   graphicsmagick zip php5-gd
 
 # patch h5ai because we want to deploy it ouside of the document root and use /var/www as root for browsing
-ADD App.php.patch App.php.patch
-RUN patch -p1 -u -d /usr/share/h5ai/_h5ai/private/php/core -i /App.php.patch && \
-  rm App.php.patch
+COPY class-setup.php.patch class-setup.php.patch
+RUN patch -p1 -u -d /usr/share/h5ai/_h5ai/private/php/core/ -i /class-setup.php.patch && rm class-setup.php.patch
+
+# set up config redirect
 RUN cp /usr/share/h5ai/_h5ai/private/conf/options.json /usr/share/h5ai/_h5ai/private/conf/options.json.bak
 RUN rm /usr/share/h5ai/_h5ai/private/conf/options.json
 RUN ln -s /config/options.json /usr/share/h5ai/_h5ai/private/conf/options.json
+
+# make the cache writable
+RUN chown ${HTTPD_USER} /usr/share/h5ai/_h5ai/public/cache/
+RUN chown ${HTTPD_USER} /usr/share/h5ai/_h5ai/private/cache/
 
 # add h5ai as the only nginx site
 ADD h5ai.nginx.conf /etc/nginx/sites-available/h5ai
