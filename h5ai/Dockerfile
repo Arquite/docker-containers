@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.16
+FROM phusion/baseimage:0.10.2
 MAINTAINER smdion <me@seandion.com>
 
 # Set correct environment variables
@@ -29,8 +29,8 @@ RUN \
   apt-get install -qy nginx php5-fpm wget unzip patch && \
   apt-get clean -y && \
   rm -rf /var/lib/apt/lists/* && \
-  wget http://release.larsjung.de/h5ai/h5ai-0.24.1.zip && \
-  unzip h5ai-0.24.1.zip -d /usr/share/h5ai
+  wget https://release.larsjung.de/h5ai/h5ai-0.29.2.zip && \
+  unzip h5ai-0.29.2.zip -d /usr/share/h5ai
 
 # patch h5ai because we want to deploy it ouside of the document root and use /var/www as root for browsing
 ADD App.php.patch App.php.patch
