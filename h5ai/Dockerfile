@@ -1,5 +1,5 @@
 FROM phusion/baseimage:0.9.16
-MAINTAINER smdion <me@seandion.com>
+MAINTAINER virtike <virtike@github>
 
 # Set correct environment variables
 ENV HOME /root
@@ -28,16 +28,11 @@ RUN \
   add-apt-repository "deb http://us.archive.ubuntu.com/ubuntu/ trusty-updates universe multiverse" && \
   apt-get update -q && \
   apt-get install -qy nginx php5-fpm wget unzip patch && \
+  apt-get install -qy libav-tools imagemagick graphicsmagick zip php5-gd &&\
   apt-get clean -y && \
   rm -rf /var/lib/apt/lists/* && \
   wget https://release.larsjung.de/h5ai/h5ai-0.29.2.zip && \
   unzip h5ai-0.29.2.zip -d /usr/share/h5ai
-
-# install extra requirements for newer h5ai version
-RUN apt-get update -q && apt-get install -y \
-  supervisor acl \
-  libav-tools imagemagick \
-  graphicsmagick zip php5-gd
 
 # patch h5ai because we want to deploy it ouside of the document root and use /var/www as root for browsing
 COPY class-setup.php.patch class-setup.php.patch
