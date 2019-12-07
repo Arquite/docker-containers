@@ -42,7 +42,10 @@ RUN patch -p1 -u -d /usr/share/h5ai/_h5ai/private/php/core/ -i /class-setup.php.
 RUN cp /usr/share/h5ai/_h5ai/private/conf/options.json /usr/share/h5ai/_h5ai/private/conf/options.json.bak
 RUN rm /usr/share/h5ai/_h5ai/private/conf/options.json
 RUN ln -s /config/options.json /usr/share/h5ai/_h5ai/private/conf/options.json
-RUN ln -s /log /var/log
+
+RUN cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
+RUN rm /etc/nginx/nginx.conf
+RUN ln -s /config/nginx/nginx.conf /etc/nginx/nginx.conf
 
 # make the cache writable
 RUN chown ${HTTPD_USER} /usr/share/h5ai/_h5ai/public/cache/
