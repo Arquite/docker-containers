@@ -42,6 +42,7 @@ RUN patch -p1 -u -d /usr/share/h5ai/_h5ai/private/php/core/ -i /class-setup.php.
 RUN cp /usr/share/h5ai/_h5ai/private/conf/options.json /usr/share/h5ai/_h5ai/private/conf/options.json.bak
 RUN rm /usr/share/h5ai/_h5ai/private/conf/options.json
 RUN ln -s /config/options.json /usr/share/h5ai/_h5ai/private/conf/options.json
+RUN ln -s /log /var/log
 
 # make the cache writable
 RUN chown ${HTTPD_USER} /usr/share/h5ai/_h5ai/public/cache/
@@ -58,7 +59,7 @@ WORKDIR /var/www
 EXPOSE 80
 
 # Expose Volumes
-VOLUME ["/var/www", "/config"]
+VOLUME ["/var/www", "/config", "/log"]
 
 # Add firstrun.sh to execute during container startup
 ADD firstrun.sh /etc/my_init.d/firstrun.sh
